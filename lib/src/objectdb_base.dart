@@ -25,6 +25,8 @@ class ObjectDB {
   ObjectDB(this.path) {
     this._file = File(this.path);
 
+    print('SB STARTED: ${this.path} ||||||||||||||||||');
+
     Op.values.forEach((Op op) {
       _operatorMap[op.toString()] = op;
     });
@@ -91,9 +93,9 @@ class ObjectDB {
     writer.write('\n');
     await writer.flush();
     await writer.close();
-
-    var backupFile = File(this.path + '.bak');
-    await backupFile.delete();
+    
+    File backupFile = File(this.path + '.bak');
+    if (await backupFile.exists()) await backupFile.delete();
 
     return await this._open(false);
   }
